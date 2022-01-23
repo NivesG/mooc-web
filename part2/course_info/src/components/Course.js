@@ -41,20 +41,18 @@ const Header = (props) => {
 
 
 
-const Course = ({course}) => {
-   
-    return(
-        <div>
-            <Header name={course.name}/>
-            <Content parts={course.parts}/>
-            <Total parts={course.parts} />
-        </div>
-        
-
+  const Course = ({ course }) => {
+    return (
+        course.map(cours => (
+            <div>
+                <Header name={cours.name} />
+                <Content parts={cours.parts} />
+                <Total  parts={cours.parts} />
+            </div>
+        )
+        )
     )
-
 }
-
 
 
 
