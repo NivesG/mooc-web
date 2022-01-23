@@ -19,21 +19,24 @@ const Button = ({handleClick, text}) => {
 
 
 const StatisticLine = (props) => (
-    <p>{props.text} {props.value}</p>
+  <tr>
+    <td>{props.text}</td> 
+    <td>{props.value}</td>
+  </tr>
   )
 
 
 const Statistics = ({fGood,fNeutral,fBad,fAll,fAvarage,fPositive}) => {
   if(fAll !== 0) {
     return(
-      <div>
+      <table>
         <StatisticLine text="good:" value={fGood}/>
         <StatisticLine text="neutral:" value={fNeutral}/>
         <StatisticLine text="bad" value={fBad}/>
         <StatisticLine text="all" value={fAll}/>
         <StatisticLine text="avarage" value={fAvarage}/>
         <StatisticLine text="positive" value={fPositive}/>
-      </div>
+      </table>
     )
   }else{
     return(
