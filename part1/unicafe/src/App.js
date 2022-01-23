@@ -18,6 +18,33 @@ const Button = ({handleClick, text}) => {
 
 
 
+const StatisticLine = (props) => (
+    <p>{props.text} {props.value}</p>
+  )
+
+
+const Statistics = ({fGood,fNeutral,fBad,fAll,fAvarage,fPositive}) => {
+  if(fAll !== 0) {
+    return(
+      <div>
+        <StatisticLine text="good:" value={fGood}/>
+        <StatisticLine text="neutral:" value={fNeutral}/>
+        <StatisticLine text="bad" value={fBad}/>
+        <StatisticLine text="all" value={fAll}/>
+        <StatisticLine text="avarage" value={fAvarage}/>
+        <StatisticLine text="positive" value={fPositive}/>
+      </div>
+    )
+  }else{
+    return(
+    <p>No feedback given</p>
+    )
+  }
+}
+
+
+
+
 const App = () => {
   const title1 = "give feedback";
   const title2 = "statistics";
@@ -44,7 +71,6 @@ const App = () => {
   const handBadClick = () => {
   setBad(bad + 1)
   setAll(all +1 )
-  console.log(all)
   }
 
  
@@ -56,12 +82,14 @@ const App = () => {
       <Button handleClick={handNeutralClick} text="neutral"/>
       <Button handleClick={handBadClick} text="bad" />
       <Title text={title2}/>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {all}</p>
-      <p>avarage {ava}</p>
-      <p>positive {positive} %</p>
+      <Statistics fGood={good}
+       fNeutral={neutral}
+         fBad={bad}
+         fAll={all}
+         fAvarage={ava}
+         fPositive={positive}
+       />
+
     </div>
   )
 }
