@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import CountryDetail from './CountryDetail'
 
-const Countries = ({results, handleClick}) => {
+const Countries = ({results, handleClick, weatherResults}) => {
+    console.log(weatherResults);
     if(results.length > 10) {
         return (
             <div>Too many matches, specify another filter.</div>
@@ -9,7 +10,7 @@ const Countries = ({results, handleClick}) => {
     }else if(results.length === 1){
         return (
             results.map(county => (
-                <CountryDetail key={county.name} results ={county}/>
+                <CountryDetail key={county.name} results ={county} weather={weatherResults}/>
             ))
                    
             )

@@ -3,14 +3,16 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import Countries from './components/Countries'
 
+ 
+const api_key = process.env.REACT_APP_API_KEY
 
 const App = () => {
 
   const [search, setSearch] = useState ('')
   const [searchresults, setSearchResults] = useState([])
+  const [weather, setWeather] = useState('');
 
   useEffect(() => {
-    
     axios
       .get('https://restcountries.com/v2/all')
       .then(response => {
@@ -20,8 +22,20 @@ const App = () => {
         setSearchResults(searchResult)
       }
       })
-    
+     
   }, [search])
+
+  useEffect(() => {
+    if(searchresults.length === 1) {
+      const capitale = searchresults[0].capital
+    axios
+      .get("https://api.openweathermap.org/data/2.5/weather?q=" + capitale + "&appid=" + api_key +"&units=metric")
+      .then(response => {
+        setWeather(response.data)
+      })
+    }
+  },[searchresults])
+
 
   
   const handleSearch =(event) => {
@@ -36,8 +50,7 @@ const App = () => {
   return (
     <div>
       <Filter value={search} change={handleSearch}/>
-      <h2>Countries</h2>
-      <Countries results={searchresults} handleClick={handleButtonClick}/>
+      <Countries results={searchresults} handleClick={handleButtonClick} weatherResults={weather}/>
     </div>
   )
 }
