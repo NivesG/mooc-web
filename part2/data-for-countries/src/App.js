@@ -27,15 +27,17 @@ const App = () => {
   const handleSearch =(event) => {
     const query = event.target.value
     setSearch(query)
-    console.log(search);
+  }
+
+  const handleButtonClick=(country) => {
+    setSearch(country);
   }
 
   return (
     <div>
       <Filter value={search} change={handleSearch}/>
-
       <h2>Countries</h2>
-      <Countries results={searchresults}/>
+      <Countries results={searchresults} handleClick={handleButtonClick}/>
     </div>
   )
 }
