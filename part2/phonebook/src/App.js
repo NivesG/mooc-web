@@ -6,17 +6,6 @@ import Persons from './components/Persons'
 import phonebookService from './services/phones'
 
 
-/*
-const promise = axios.get('http://localhost:3003/persons')
-promise.then(response => {
-  const personal = response.data
-  console.log(personal)
-})
-
-*/
-
-
-
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
@@ -67,6 +56,25 @@ const App = () => {
     setSearchResults(filtered)
   }
 
+
+  const handleDelete = (itemId) => {
+
+    // Whatever you want to do with that item
+    /*axios.delete(`http://localhost:3001/persons/${itemId}`).then(response => {
+      console.log("deleted")
+    }); */
+    const delPerson = persons.find((p) => p.id === itemId)
+    if(window.confirm(`do you want to delete ${delPerson.name}?`)) {
+      phonebookService
+      .deleting(itemId)
+      .then(response => {
+        const newpersonList = persons.filter((person) => person.id !== itemId)
+        setPersons(newpersonList)
+        setSearch('');
+      })
+    }   
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -83,7 +91,7 @@ const App = () => {
         />
       </div>
       <h2>Numbers</h2>
-      <Persons results={searchresults}/>
+      <Persons results={searchresults} deleted={handleDelete}/>
     </div>
   )
 }

@@ -1,8 +1,14 @@
 import React, { useState } from 'react'
 
-const Persons = ({results}) => {
+const Persons = ({results, deleted}) => {
     return (
-        results.map(perso => <p key={perso.name}>{perso.name} {perso.number}</p>)
+        results.map(perso =>
+        <div key={perso.name}>     
+        <p>{perso.name} {perso.number} 
+        <button className="button" onClick={() => deleted(perso.id)}>
+        Delete
+      </button></p>
+      </div>)
 
     )
 }

@@ -11,44 +11,9 @@
       "id": 2
     },
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
-    },
-    {
-      "name": "Nives Gabrijan",
-      "number": "056 456 893",
-      "id": 5
-    },
-    {
-      "name": "tilen",
-      "number": "234234",
-      "id": 6
-    },
-    {
-      "name": "piki",
-      "number": "34234",
-      "id": 7
-    },
-    {
-      "name": "loki",
-      "number": "234234",
-      "id": 8
-    },
-    {
-      "name": "Janez",
-      "number": "Novak",
-      "id": 9
-    },
-    {
-      "name": "Mikica Kolar",
-      "number": "567 678",
-      "id": 10
     }
   ]
 }
