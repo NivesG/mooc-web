@@ -3,6 +3,7 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import phonebookService from './services/phones'
 
 
 /*
@@ -25,11 +26,10 @@ const App = () => {
   const [searchresults, setSearchResults] = useState(persons)
 
   useEffect(() => {
-    console.log("effect");
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-      setPersons(response.data)
+    phonebookService
+      .getAll()
+      .then(initialpersons => {
+      setPersons(initialpersons)
       })
   }, [])
 
@@ -43,10 +43,10 @@ const App = () => {
     }else{
       const newPerson = {name: newName, number: newNumber}
 
-      axios
-        .post('http://localhost:3001/persons', newPerson)
-        .then(response => {
-          setPersons(persons.concat(response.data))
+      phonebookService
+        .create(newPerson)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
         })

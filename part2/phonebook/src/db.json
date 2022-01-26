@@ -29,6 +29,26 @@
       "name": "tilen",
       "number": "234234",
       "id": 6
+    },
+    {
+      "name": "piki",
+      "number": "34234",
+      "id": 7
+    },
+    {
+      "name": "loki",
+      "number": "234234",
+      "id": 8
+    },
+    {
+      "name": "Janez",
+      "number": "Novak",
+      "id": 9
+    },
+    {
+      "name": "Mikica Kolar",
+      "number": "567 678",
+      "id": 10
     }
   ]
 }
