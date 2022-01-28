@@ -14,43 +14,59 @@ const App = () => {
   const [search, setSearch] = useState ('')
   const [searchresults, setSearchResults] = useState(persons)
   const [noticeMessage, setNoticeMessage] =useState(null)
+  const [errorMessage, setErrorMessage] =useState(null)
 
   useEffect(() => {
+    phonebookService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
+    });
+  }, []);
+
+
+   const refresh = ()  => {
     phonebookService
       .getAll()
-      .then(initialpersons => {
-      setPersons(initialpersons)
+      .then(persons => {
+        console.log('lista päivitetty lisäyksen/poiston/päivityksen')
+        setPersons(persons)
       })
-  }, [])
+  }
+
 
   const addPerson = (event) => {
     event.preventDefault()
     const person = persons.find((p) => p.name === newName);
   
     if (persons.some(person => person.name === newName)) {
-      console.log("jevpisan");
 
       if(window.confirm(`${newName} is already added to phonebook do you want to change number?`)){
-        const url = "http://localhost:3001/persons/" + person.id
-        const perso = persons.find(p => p.name === newName)
-        const changePerson = { ...perso, number: newNumber }
-        console.log(changePerson);
-        axios.put(url, changePerson).then(response => {
-        setPersons(persons.map(perso => perso.name !== newName ? perso : response.data))
-        setNoticeMessage(
-          `Added new number for ${newName}`
-        )
-        setTimeout(() => {
-          setNoticeMessage(null)
-        }, 5000)
+        const changePerson = { ...person, number: newNumber }
 
-      })
+        phonebookService
+          .update(person.id, changePerson)
+          .catch(error => {
+            setErrorMessage(`Information of ${person.name} was already deleted`) 
+            setTimeout(() => { setErrorMessage(null) }, 5000)
+            refresh()
+            return
+          })
+  
+          .then (returnedPerson => {
+            
+            setPersons(persons.map(persones => persones.id !== person.id ? persones : returnedPerson))
+            setNoticeMessage(
+              `Added new number for ${newName}`
+            )
+            setTimeout(() => {
+              setNoticeMessage(null)
+            }, 5000)
+          })
         setNewName('')
         setNewNumber('')
       }
       
     }else{
-      console.log("ni vpisan");
+
       const newPerson = {name: newName, number: newNumber}
       phonebookService
         .create(newPerson)
@@ -64,6 +80,7 @@ const App = () => {
           setTimeout(() => {
             setNoticeMessage(null)
           }, 5000)
+          refresh()
         })
     }
   }
@@ -93,11 +110,13 @@ const App = () => {
         setPersons(newpersonList)
         setSearch('');
         setNoticeMessage(
-          `Deleted ${delPerson.name}`
+          `${delPerson.name} deleted from phonebook`
         )
+        
         setTimeout(() => {
           setNoticeMessage(null)
         }, 5000)
+        refresh()  
       })
     }   
   }
@@ -106,7 +125,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter value={search} change={handleSearch}/>
-      <Notification message={noticeMessage}/>
+      <Notification messageNotice={noticeMessage} messageError={errorMessage}/> 
       <div>
         <h2>add new</h2>
         <PersonForm 

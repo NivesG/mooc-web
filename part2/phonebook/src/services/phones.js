@@ -17,7 +17,16 @@ const deleting = id => {
     const request = axios.delete(baseUrl + "/" + id)
     return request.then(response => response.data)
 }
+
+const update = (id, newObject) => {
+    const request = axios.put(baseUrl + "/" + id, newObject)
+    console.log(id);
+    return request.then(response => response.data)
+    
+  
+}
+
   //axios.delete(`http://localhost:3001/persons/${itemId}`).then(response => {
 
 
-export default {getAll, create, deleting}
+export default {getAll, create, deleting, update}
