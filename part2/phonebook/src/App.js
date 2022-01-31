@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
@@ -22,12 +21,10 @@ const App = () => {
     });
   }, []);
 
-
    const refresh = ()  => {
     phonebookService
       .getAll()
       .then(persons => {
-        console.log('lista päivitetty lisäyksen/poiston/päivityksen')
         setPersons(persons)
       })
   }
