@@ -34,8 +34,67 @@ const favouriteBlog = (blogs) => {
   return fav
 }
 
+
+const mostLikes = (blogs) => {
+  if(blogs.length === 0)
+    return null
+  const topBlogs = (getTotalLikes(blogs))
+  const max = topBlogs.reduce(function(prev, current) {
+    return (prev.likes > current.likes) ? prev : current
+  })
+  return max
+}
+
+
+const getTotalLikes = arr =>
+  Object.values(
+    arr.reduce((acc, { author, likes }) => {
+      acc[author] =
+        author in acc
+          ? { author, likes: acc[author].likes + likes }
+          : { author, likes: likes }
+      return acc
+    }, {})
+  )
+
+
+const blogsAuthor = (blogs) => {
+  const key = 'author'
+  let arr2 = []
+  blogs.forEach((x) => {
+    if(arr2.some((val) => { return val[key] === x[key] })){
+      arr2.forEach((k) => {
+        if(k[key] === x[key]){
+          k[ 'blogs' ]++
+        }
+      })
+
+    }else{
+      let a = {}
+      a[key] = x[key]
+      a[ 'blogs' ] = 1
+      arr2.push(a);
+    }
+  })
+  console.log(arr2)
+  return arr2
+}
+
+const mostBlogs = (blogs) => {
+  if(blogs.length === 0)
+    return null
+  const topBlogs = (blogsAuthor(blogs))
+  const max = topBlogs.reduce(function(prev, current) {
+    return (prev.likes > current.likes) ? prev : current
+  })
+  return max
+}
+
+
 module.exports = {
   dummy,
   totalLikes,
-  favouriteBlog
+  favouriteBlog,
+  mostLikes,
+  mostBlogs
 }
