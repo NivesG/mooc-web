@@ -19,16 +19,31 @@ const App = () => {
     )  
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+     //noteService.setToken(user.token)
+    }
+  }, [])
+
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login({
         username, password,
       })
+
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      )
+
       setUser(user)
       setUsername('')
       setPassword('')
-      //setNoticeMessage('uspešno prijavljen')
+    
     } catch (exception) {
       setErrorMessage('Wrong credentials')     
       setTimeout(() => {
@@ -39,9 +54,12 @@ const App = () => {
 
   }
 
-  const loginForm = () => (
-    <div>
-    <h2>Log in to application</h2>
+  const handleLogout = async(event) => {
+    window.localStorage.removeItem('loggedBlogappUser')
+    setUser(null)
+  }
+
+  const loginForm = () => ( 
     <form onSubmit={handleLogin}>
       <div>
         username 
@@ -62,8 +80,7 @@ const App = () => {
         />
       </div>
       <button type="submit">login</button>
-    </form>
-    </div>      
+    </form>   
   )
 
   const blogList = () => (
@@ -79,12 +96,27 @@ const App = () => {
     <p>{user.username} is logged in</p>
   )
 
+  const logoutForm = () => (
+    
+      <form onSubmit={handleLogout}>
+      <button type="submit">logout</button>
+      </form>
+
+
+  )
+
   return (
     <div>
        <h1>blogs</h1>
-      {user === null ? loginForm() : 
+      {user === null ?
+      <div>
+      {loginForm()}
+     
+      </div>
+       : 
         <div>
           {loginNotice()}
+          {logoutForm()}
           {blogList()}
         </div>
       }
