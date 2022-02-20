@@ -3,6 +3,10 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import LoginForm from './components/Login'
+import AddBlogForm from './components/AddBlog'
+import Togglable from './components/Togglable'
+
 import { findRenderedDOMComponentWithClass } from 'react-dom/cjs/react-dom-test-utils.development'
 
 const App = () => {
@@ -12,7 +16,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [inputValue, setInputValue] = useState(null)
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [linkUrl, setLinkUrl] = useState('');
@@ -89,29 +92,6 @@ const App = () => {
 
   }
 
-  const loginForm = () => ( 
-    <form onSubmit={handleLogin}>
-      <div>
-        username 
-          <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password 
-          <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>   
-  )
 
   const blogList = () => (
     <div>
@@ -134,64 +114,38 @@ const App = () => {
 
   )
 
-  const addBlogForm = () => (
-    <div>
-      <h2>create new: </h2>
-      <form onSubmit={handleAddBlog}>
-      <div>
-         Title:
-          <input
-            type="text"
-            value={title}
-            id="title"
-            name="title"
-            onChange={({ target }) => setTitle(target.value)}
-            autoFocus
-          />
-        </div>
-        <div>
-          Author:
-          <input
-            type="text"
-            value={author}
-            id="author"
-            name="author"
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-        </div>
-        <div>
-         URL:
-          <input
-            type="text"
-            value={linkUrl}
-            id="linkUrl"
-            name="linkUrl"
-            onChange={({ target }) => setLinkUrl(target.value)}
-          />
-        </div>
-        <div>
-          <input type="submit" value="create" id="AddBlog" />
-        </div>
-
-      </form>
-    </div>
-    
-  )
-
   return (
     <div>
        <h1>blogs</h1>
        <Notification messageNotice={noticeMessage} messageError={errorMessage}/> 
       {user === null ?
       <div>
-      {loginForm()}
+      <Togglable buttonLabel = 'login'>
+        <LoginForm
+          username={username}
+          password={password}
+          usernameChange={({target}) => setUsername(target.value)}
+          passwordChange={({target}) => setPassword(target.value)}
+          handleLogin={handleLogin}
+        />
+        </Togglable>
      
       </div>
        : 
         <div>
           {loginNotice()}
           {logoutForm()}
-          {addBlogForm()}
+          <Togglable buttonLabel = 'new note'>
+            <AddBlogForm
+              author={author}
+              title={title}
+              linkUrl={linkUrl}
+              handleAddBlog={handleAddBlog}
+              authorChange={({target}) => setAuthor(target.value)}
+              titleChange={({target}) => setTitle(target.value)}
+              urlChange={({target}) => setLinkUrl(target.value)}
+            />
+          </Togglable>
           {blogList()}
         </div>
       }
