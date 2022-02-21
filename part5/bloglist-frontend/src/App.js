@@ -93,6 +93,22 @@ const App = () => {
 
   }
 
+  const updateLike = async (id, blogObject) => {
+    try {
+      await blogService.addLike(id, blogObject)
+      const updatedBlog = {
+        ...blogObject,
+        id,
+      }
+      setBlogs(blogs.map((blog) => (blog.id !== id ? blog : updatedBlog)))
+
+    }catch(exception) {
+      console.log("ni uspel like");
+
+    }
+
+  }
+
 
   const loginNotice = () => (
     <p>{user.username} is logged in</p>
@@ -144,6 +160,7 @@ const App = () => {
               user={user}
                 key={blog.id}
                 blog={blog}
+                updateLike={updateLike}
               />
 
           ))}

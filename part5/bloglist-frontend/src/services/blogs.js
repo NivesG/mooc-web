@@ -22,5 +22,10 @@ const create = async newObject => {
   return response.data
 }
 
+//spremeni obliko v async
+const addLike = (id, newObject) => {
+  const request = axios.put(baseUrl + "/" + id, newObject)
+  return request.then(response => response.data) 
+}
 
-export default { getAll, create, setToken }
+export default { getAll, create, setToken, addLike }

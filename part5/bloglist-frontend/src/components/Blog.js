@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import BlogDetails from './BlogDetails'
-const Blog = ({blog, user}) => {
+import blogService from '../services/blogs'
+const Blog = ({blog, user, updateLike}) => {
   const [visibility, setVisibility] = useState (false)
 
 
@@ -13,13 +14,20 @@ const Blog = ({blog, user}) => {
     setVisibility(!visibility)
   }
 
+  const handleLike = async (event) => {
+    const blogId = blog.id
+    console.log(blogId);
+    const updatedBlog = {title: blog.title, author: blog.author, url: blog.linkUrl,  likes: blog.likes + 1, userId: user.id}
+    updateLike(blogId, updatedBlog)
+  }
+
   return (
     <div>
       <div style={hideWhenVisible}>
         {blog.title}<button onClick={toggleVisibility}>show</button>
       </div>
       <div style={showWhenVisible}>
-        <BlogDetails blog={blog} handleHideClick={toggleVisibility} />
+        <BlogDetails blog={blog} handleHideClick={toggleVisibility} handleLikeClick={handleLike}/>
 
       </div>
     </div>
