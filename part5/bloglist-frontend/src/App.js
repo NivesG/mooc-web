@@ -7,7 +7,7 @@ import LoginForm from './components/Login'
 import AddBlogForm from './components/AddBlog'
 import Togglable from './components/Togglable'
 
-import { findRenderedDOMComponentWithClass } from 'react-dom/cjs/react-dom-test-utils.development'
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -19,6 +19,7 @@ const App = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [linkUrl, setLinkUrl] = useState('');
+
 
 
   useEffect(() => {
@@ -93,15 +94,6 @@ const App = () => {
   }
 
 
-  const blogList = () => (
-    <div>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-      </div>
-  )
-
-
   const loginNotice = () => (
     <p>{user.username} is logged in</p>
   )
@@ -146,7 +138,15 @@ const App = () => {
               urlChange={({target}) => setLinkUrl(target.value)}
             />
           </Togglable>
-          {blogList()}
+          <h2>Blogs</h2>
+          {blogs.map((blog) => (
+            <Blog 
+              user={user}
+                key={blog.id}
+                blog={blog}
+              />
+
+          ))}
         </div>
       }
   
