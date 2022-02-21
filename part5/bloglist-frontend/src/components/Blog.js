@@ -1,28 +1,37 @@
 import React, {useState} from 'react'
 import BlogDetails from './BlogDetails'
 const Blog = ({blog, user}) => {
-const [visibility, setVisibility] = useState (false)
+  const [visibility, setVisibility] = useState (false)
 
 
 
-  const handleShow = () => {
-    setVisibility(true)
+  const hideWhenVisible = { display: visibility ? 'none' : '' }
+  const showWhenVisible = { display: visibility ? '' : 'none' }
+  //const buttonLabel =  visibility ? 'show' : 'hide' 
+
+  const toggleVisibility = () => {
+    setVisibility(!visibility)
   }
 
-  const handleHide = () => {
-    setVisibility(false)
-  }
-
-  if (!visibility) {
-    return (
-        <div>
-          {blog.title} {blog.author} <button onClick={handleShow}>show</button>
-         </div>  
-      )
-  }
   return (
-    <BlogDetails blog={blog} handleHideClick= {handleHide}/>
+    <div>
+      <div style={hideWhenVisible}>
+        {blog.title}<button onClick={toggleVisibility}>show</button>
+      </div>
+      <div style={showWhenVisible}>
+        <BlogDetails blog={blog} handleHideClick={toggleVisibility} />
+
+      </div>
+    </div>
+
+
+
+
+
+
+
   )
+
 
 }
  
