@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import BlogDetails from './BlogDetails'
 
-const Blog = ({blog, user, updateLike, deleteBlog}) => {
+const Blog = ({ blog, user, updateLike, deleteBlog }) => {
   const [visibility, setVisibility] = useState (false)
 
   const hideWhenVisible = { display: visibility ? 'none' : '' }
@@ -32,7 +32,6 @@ const Blog = ({blog, user, updateLike, deleteBlog}) => {
     </div>
   )
 }
- 
 
 
 export default Blog

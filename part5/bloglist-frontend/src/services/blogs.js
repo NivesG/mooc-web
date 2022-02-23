@@ -24,8 +24,8 @@ const create = async newObject => {
 
 //spremeni obliko v async
 const addLike = (id, newObject) => {
-  const request = axios.put(baseUrl + "/" + id, newObject)
-  return request.then(response => response.data) 
+  const request = axios.put(baseUrl + '/' + id, newObject)
+  return request.then(response => response.data)
 }
 
 const deleteBlog = async(id) => {
@@ -33,7 +33,7 @@ const deleteBlog = async(id) => {
     headers: { Authorization: token },
   }
 
-  const response = await axios.delete(baseUrl + "/" + id, config)
+  const response = await axios.delete(baseUrl + '/' + id, config)
   return response.data
 }
 
