@@ -69,11 +69,12 @@ const App = () => {
 
   const handleAddBlog = async(event) => {
     event.preventDefault()
-    const newBlog = {title: title, author: author, url: linkUrl,  userId: user.id}
+    const newBlog = {title: title, author: author, url: linkUrl, likes: 0, userId: user.id}
+
     try {
       const addedBlog = await blogService.create(newBlog)
-      let blogList = blogs.concat(addedBlog)
-      setBlogs(blogList)
+      const updatedBlogs = await blogService.getAll()
+      setBlogs(updatedBlogs)
       setNoticeMessage(`A new blog ${addedBlog.title} by ${addedBlog.author} was added`);
       setTimeout(() => {
         setNoticeMessage(null);
@@ -94,17 +95,17 @@ const App = () => {
   }
 
   const updateLike = async (id, blogObject) => {
+    const updatedBlog = {
+      ...blogObject,
+      likes: blogObject.likes +1 
+    }
+
     try {
-      await blogService.addLike(id, blogObject)
-      const updatedBlog = {
-        ...blogObject,
-        id,
-      }
+      const returnedBlog = await blogService.addLike(id, updatedBlog)
       setBlogs(blogs.map((blog) => (blog.id !== id ? blog : updatedBlog)))
 
     }catch(exception) {
-      console.log("ni uspel like");
-
+      console.log(exception);
     }
 
   }
@@ -121,6 +122,31 @@ const App = () => {
       </form>
 
   )
+
+  const deleteBlog = async(id) => {
+     const delBlog = blogs.filter((blog) => blog.id === id)
+     if(window.confirm(`are you shure you want to delete blog ${delBlog[0].title} by ${delBlog[0].author}?`)){
+      try{
+        const deletedBlog = await blogService.deleteBlog(id)
+        console.log(deletedBlog);   
+        setNoticeMessage(`Blog ${delBlog[0].title} by ${delBlog[0].author} was deleted`);
+        setTimeout(() => {
+        setNoticeMessage(null);
+      }, 4000);
+        setBlogs(blogs.filter((blog) => blog.id !== id))
+
+      }catch(exception){
+        setErrorMessage('brisanje ni uspelo - nisi autor')
+        setTimeout(() => {
+        setErrorMessage(null)
+        }, 5000) 
+      }
+  }
+
+
+     }
+   
+      
 
   return (
     <div>
@@ -155,15 +181,19 @@ const App = () => {
             />
           </Togglable>
           <h2>Blogs</h2>
-          {blogs.map((blog) => (
-            <Blog 
-              user={user}
+          {blogs
+            .sort((a, b) => b.likes - a.likes)
+            .map((blog) => (
+              <Blog 
+                user={user}
                 key={blog.id}
                 blog={blog}
                 updateLike={updateLike}
+                deleteBlog={deleteBlog}
               />
-
-          ))}
+            ))
+           
+          }
         </div>
       }
   
