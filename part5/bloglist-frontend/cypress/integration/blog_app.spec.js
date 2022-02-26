@@ -32,6 +32,7 @@ describe('Blog app', function() {
         cy.get('#password').type('wrong')
         cy.get('#login-button').click()
         cy.get('.error').contains('wrong username or password')
+        cy.get('.error').should('have.css', 'color', 'rgb(255, 0, 0)')
         cy.get('html').should('not.contain', 'nives is logged in')
         
       })
