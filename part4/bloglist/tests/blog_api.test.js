@@ -84,6 +84,11 @@ test('blogs have identifier', async () => {
   expect(response.body[0]).toHaveProperty('id')
 })
 
+test('created new blog' ,async () => {
+  const response = await api.get('/api/blogs')
+  
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
