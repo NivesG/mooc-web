@@ -24,7 +24,7 @@ const BlogDetails = ({ blog, user, handleHideClick, handleLikeClick, handleDelet
     <div className='blogdetails' style={blogStyle}>
       <p>{blog.title} {blog.author}<button onClick={handleHideClick}>hide</button></p>
       <p>{blog.url}</p>
-      <p>likes {blog.likes} <button onClick={handleLikeClick}>like</button></p>
+      <p>likes {blog.likes} <button id='like-button' onClick={handleLikeClick}>like</button></p>
       <p>{blog.user.name}</p>
       {deleteButoon()}
     </div>

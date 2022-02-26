@@ -56,6 +56,20 @@ describe('Blog app', function() {
         cy.contains('new blog title test nives')
           .contains('show')
       })
+
+      it('users can like a blog', function() {
+        cy.contains('new note').click()
+        cy.get('#title').type('new blog title')
+        cy.get('#author').type('test nives')
+        cy.get('#linkUrl').type('www.test.com')
+        cy.get('#create-button').click()
+        cy.contains('new blog title test nives')
+          .contains('show').click()
+        cy.get('#like-button').click()
+        cy.contains('likes 1')
+        
+        
+      })
     })
 
   
