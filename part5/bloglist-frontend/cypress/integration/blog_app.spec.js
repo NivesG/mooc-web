@@ -1,25 +1,27 @@
 describe('Blog app', function() {
-    beforeEach(function() {
+      beforeEach(function() {
+        cy.request('POST', 'http://localhost:3003/api/testing/reset')
+        const user = {
+          name: 'testnives',
+          username: 'testnives',
+          password: 'password'
+        }
+        cy.request('POST', 'http://localhost:3003/api/users/', user)
+
         cy.visit('http://localhost:3001')
       })
-
-    it('front page can be opened', function() {
-      cy.contains('blogs')
-      cy.contains('login')
-    })
-
+      
     it('Login form is shown', function() {
         cy.contains('login').click()
         cy.contains('username')
         cy.contains('password')
-        
       })
 
     describe('Login', function() {
       it('succeeds with correct credentials', function() {
         cy.contains('login').click()
-        cy.get('#username').type('nives')
-        cy.get('#password').type('lula')
+        cy.get('#username').type('testnives')
+        cy.get('#password').type('password')
         cy.get('#login-button').click()
         cy.contains('nives is logged in')
       })
