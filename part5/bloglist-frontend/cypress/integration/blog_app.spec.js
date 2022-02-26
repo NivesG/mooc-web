@@ -38,6 +38,26 @@ describe('Blog app', function() {
       })
     })
 
+    describe('When logged in', function() {
+      beforeEach(function() {
+        cy.contains('login').click()
+        cy.get('#username').type('testnives')
+        cy.get('#password').type('password')
+        cy.get('#login-button').click()
+      })
+  
+      it('A blog can be created', function() {
+        cy.contains('new note').click()
+        cy.get('#title').type('new blog title')
+        cy.get('#author').type('test nives')
+        cy.get('#linkUrl').type('www.test.com')
+        cy.get('#create-button').click()
+        cy.get('.notification').contains('A new blog new blog title by test nives was added')
+        cy.contains('new blog title test nives')
+          .contains('show')
+      })
+    })
+
   
 
       
