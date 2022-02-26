@@ -21,7 +21,7 @@ const BlogDetails = ({ blog, user, handleHideClick, handleLikeClick, handleDelet
 
 
   return (
-    <div style={blogStyle}>
+    <div className='blogdetails' style={blogStyle}>
       <p>{blog.title} {blog.author}<button onClick={handleHideClick}>hide</button></p>
       <p>{blog.url}</p>
       <p>likes {blog.likes} <button onClick={handleLikeClick}>like</button></p>
@@ -33,13 +33,13 @@ const BlogDetails = ({ blog, user, handleHideClick, handleLikeClick, handleDelet
 }
 
 BlogDetails.propTypes = {
-  handleLikeClick: PropTypes.func.isRequired,
-  handleHideClick: PropTypes.func,
-  handleDeleteClick: PropTypes.func.isRequired,
+// handleLikeClick: PropTypes.func.isRequired,
+// handleHideClick: PropTypes.func,
+// handleDeleteClick: PropTypes.func.isRequired,
   blog: PropTypes.shape({
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
-    likes: PropTypes.number.isRequired
+    //likes: PropTypes.number.isRequired
   }).isRequired,
   user: PropTypes.shape({
     token: PropTypes.string.isRequired,

@@ -8,6 +8,14 @@ import AddBlogForm from './components/AddBlog'
 import Togglable from './components/Togglable'
 
 
+const appStyle = {
+  backgroundColor: '#f0f0f0',
+  display: 'flex',
+  flexDirection: 'column',
+  flexGrow: 1,
+  padding: '1em 2em',
+}
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -145,7 +153,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div style={appStyle}>
       <h1>blogs</h1>
       <Notification messageNotice={noticeMessage} messageError={errorMessage}/>
       {user === null ?
