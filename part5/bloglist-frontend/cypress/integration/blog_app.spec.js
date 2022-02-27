@@ -6,7 +6,13 @@ describe('Blog app', function() {
           username: 'testnives',
           password: 'password'
         }
+        const user2 = {
+          name: 'secondnives',
+          username: 'secondnives',
+          password: 'password'
+        }
         cy.request('POST', 'http://localhost:3003/api/users/', user)
+        cy.request('POST', 'http://localhost:3003/api/users/', user2)
 
         cy.visit('http://localhost:3001')
       })
@@ -57,20 +63,48 @@ describe('Blog app', function() {
           .contains('show')
       })
 
-      it('users can like a blog', function() {
-        cy.contains('new note').click()
-        cy.get('#title').type('new blog title')
-        cy.get('#author').type('test nives')
-        cy.get('#linkUrl').type('www.test.com')
-        cy.get('#create-button').click()
-        cy.contains('new blog title test nives')
-          .contains('show').click()
-        cy.get('#like-button').click()
-        cy.contains('likes 1')
-        
-        
+      describe('when blog created', function() {
+        beforeEach(function(){
+          cy.contains('new note').click()
+          cy.get('#title').type('new blog title')
+          cy.get('#author').type('test nives')
+          cy.get('#linkUrl').type('www.test.com')
+          cy.get('#create-button').click()
+          cy.contains('new blog title test nives')
+            .contains('show').click()
+        })
+
+        it('users can like a blog', function() {
+          cy.get('#like-button').click()
+          cy.contains('likes 1')        
+        })
+
+        it('user who created a blog can delete it', function() {
+          cy.get('#delete-button').click()
+          cy.get('.notification').contains('Blog new blog title by test nives was deleted')
+        })
+        describe('when another user logs in', function() {
+          beforeEach(function() {
+            cy.contains('logout').click()    
+            cy.contains('login').click()
+            cy.get('#username').type('secondnives')
+            cy.get('#password').type('password')
+            cy.get('#login-button').click()
+          })
+    
+          it('user who is not author of the blog cannot delete it', function() {
+            cy.contains('new blog title test nives')
+                .contains('show').click()
+            cy.get('#delete-button').should('not.exist')
+            
+          })
+        })
       })
+
+      
     })
+
+    
 
   
 
