@@ -84,6 +84,51 @@ describe('Blog app', function() {
           cy.get('.notification').contains('Blog new blog title by test nives was deleted')
           cy.contains('new blog title test nives').should('not.exist')
         })
+
+        describe('multiple blogs created', function() {
+          beforeEach(function() {
+            cy.createBlog({
+              title: 'blog1',
+              author: 'Cypress',
+              url: 'www',
+              likes: 6,
+            })
+            cy.createBlog({
+              title: 'blog2',
+              author: 'Cypress',
+              url: 'www',
+              likes: 2,
+            })
+            cy.createBlog({
+              title: 'blog3',
+              author: 'Cypress',
+              url: 'www',
+              likes: 30,
+            })
+          })
+          it('contains new blogs', function() {
+            cy.get('[data-cy="blog"]').then((blog) => {
+              expect(blog).to.have.length(4)
+              for (let i = 0; i < blog.length; i++) {
+                // Check if the number of likes of current blog is higher than or equal to that of next blog
+                if (i < blog.length - 1) {
+                  expect(
+                    Number(blog.find('[data-cy="likes"]')[i].innerText),
+                  ).to.be.least(
+                    Number(blog.find('[data-cy="likes"]')[i + 1].innerText),
+                  )
+                  // Check if number of likes of last blog is lower than or equal to that of first blog
+                } else {
+                  expect(
+                    Number(blog.find('[data-cy="likes"]')[i].innerText),
+                  ).to.be.most(Number(blog.find('[data-cy="likes"]')[0].innerText))
+                }
+              }
+            })
+            
+          })
+        })
+
         describe('when another user logs in', function() {
           beforeEach(function() {
             cy.contains('logout').click()    

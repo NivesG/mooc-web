@@ -21,10 +21,10 @@ const BlogDetails = ({ blog, user, handleHideClick, handleLikeClick, handleDelet
 
 
   return (
-    <div className='blogdetails' style={blogStyle}>
+    <div data-cy="blog" className='blogdetails' style={blogStyle}>
       <p>{blog.title} {blog.author}<button onClick={handleHideClick}>hide</button></p>
       <p>{blog.url}</p>
-      <p>likes {blog.likes} <button id='like-button' onClick={handleLikeClick}>like</button></p>
+      <span>likes</span><span data-cy="likes"> {blog.likes}</span> <button id='like-button' onClick={handleLikeClick}>like</button>
       <p>{blog.user.name}</p>
       {deleteButoon()}
     </div>
