@@ -82,6 +82,7 @@ describe('Blog app', function() {
         it('user who created a blog can delete it', function() {
           cy.get('#delete-button').click()
           cy.get('.notification').contains('Blog new blog title by test nives was deleted')
+          cy.contains('new blog title test nives').should('not.exist')
         })
         describe('when another user logs in', function() {
           beforeEach(function() {
