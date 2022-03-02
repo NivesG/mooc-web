@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 
 const Anecdotelist =(props) => {
-    const anecdotes = useSelector(state => state)
+    const anecdotes = useSelector(state => state.anecdotes)
     const dispatch = useDispatch()
 
     const addVote =(id) =>{
