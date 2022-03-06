@@ -7,14 +7,17 @@ import { Provider } from 'react-redux'
 import App from './App'
 import anecdotesreducer from './reducers/anecdoteReducer'
 import {addAnecdote} from './reducers/anecdoteReducer'
-import { addNotification } from './reducers/reducer'
+import { addNotification, removeNotification } from './reducers/reducer'
 import notificationSlice from './reducers/reducer'
+import filterSlice from './reducers/filterReducer'
+import {filterWord} from './reducers/filterReducer'
 
 
 
 const reducer = combineReducers({
   anecdotes: anecdotesreducer,
-  notifications: notificationSlice
+  notifications: notificationSlice,
+  filters: filterSlice
 })
 
 const store = configureStore({
@@ -24,7 +27,8 @@ const store = configureStore({
 
 console.log("hahaha", store.getState())
 store.subscribe(() => console.log(store.getState()))
-store.dispatch(addAnecdote('combineReducers forms one reducer from many simple reducers'))
+
+
 
 
 
