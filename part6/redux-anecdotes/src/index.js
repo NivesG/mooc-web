@@ -7,27 +7,26 @@ import { Provider } from 'react-redux'
 import App from './App'
 import anecdotesreducer from './reducers/anecdoteReducer'
 import {addAnecdote} from './reducers/anecdoteReducer'
+import { addNotification } from './reducers/reducer'
+import notificationSlice from './reducers/reducer'
 
 
 
 const reducer = combineReducers({
-  anecdotes: anecdotesreducer
-
+  anecdotes: anecdotesreducer,
+  notifications: notificationSlice
 })
-//const store = createStore(reducer)
-
 
 const store = configureStore({
-  reducer: {
-    anecdotes: anecdotesreducer
-  }
+  reducer
 })
-
 
 
 console.log("hahaha", store.getState())
 store.subscribe(() => console.log(store.getState()))
 store.dispatch(addAnecdote('combineReducers forms one reducer from many simple reducers'))
+
+
 
 ReactDOM.render(
   <Provider store={store}>
