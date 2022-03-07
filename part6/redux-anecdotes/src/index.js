@@ -6,7 +6,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import App from './App'
 import anecdotesreducer from './reducers/anecdoteReducer'
-import {appendAnecdote} from './reducers/anecdoteReducer'
+import {appendAnecdote, setAnecdotes} from './reducers/anecdoteReducer'
 import { addNotification, removeNotification } from './reducers/reducer'
 import notificationSlice from './reducers/reducer'
 import filterSlice from './reducers/filterReducer'
@@ -26,9 +26,7 @@ const store = configureStore({
 })
 
 anecdoteService.getAll().then(anecdotes =>
-  anecdotes.forEach(anecdote => {
-    store.dispatch(appendAnecdote(anecdote))
-  })
+    store.dispatch(setAnecdotes(anecdotes))
 )
 
 console.log("hahaha", store.getState())
