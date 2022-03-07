@@ -9,6 +9,6 @@ const store = configureStore({
         notifications: notificationReducer,
         filters: filterReducer
     }
-  })
+})
 
 export default store

@@ -1,6 +1,6 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import {filterWord} from '../reducers/filterReducer'
+import { useDispatch } from 'react-redux'
+import { filterWord } from '../reducers/filterReducer'
 
 
 const Filter = () => {
@@ -9,23 +9,22 @@ const Filter = () => {
     const handleChange = (event) => {
         const fieldValue = event.target.value
         dispatch(filterWord(fieldValue))
-        console.log('filterchange');
+        console.log('filterchange')
     }
     const style = {
         marginBottom: 10
-      }
+    }
 
     return (
         <div style={style}>
-        filter 
-        <input 
-            type="text"
-            placeholder="search"
-            onChange={handleChange}
-        />
+        filter
+            <input
+                type="text"
+                placeholder="search"
+                onChange={handleChange}
+            />
 
         </div>
-        
     )
 
 }

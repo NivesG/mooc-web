@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux'
-import { createAnecdote, newAnecdote } from '../reducers/anecdoteReducer'
-import { addNotification, removeNotification, setNotification } from '../reducers/reducer'
-import anecdoteService from '../services/anecdotes'
+import { createAnecdote } from '../reducers/anecdoteReducer'
+import {  setNotification } from '../reducers/reducer'
 
-const AnecdoteForm =(props) => {
+
+const AnecdoteForm =() => {
     const dispatch = useDispatch()
 
     const addNewAnecdote = async(event) => {
@@ -12,15 +12,15 @@ const AnecdoteForm =(props) => {
         event.target.anecdote.value = ''
         dispatch(createAnecdote(content))
         dispatch(setNotification(`new anecdote '${content}'`, 5000))
-      }
+    }
 
 
     return (
         <>
             <h2>create new</h2>
             <form onSubmit={addNewAnecdote}>
-            <div><input name='anecdote'/></div>
-            <button type='submit'>create</button>
+                <div><input name='anecdote'/></div>
+                <button type='submit'>create</button>
             </form>
         </>
     )

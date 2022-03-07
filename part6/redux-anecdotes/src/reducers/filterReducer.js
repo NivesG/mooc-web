@@ -12,5 +12,5 @@ const filterSlice = createSlice( {
     }
 })
 
-export const {filterWord} = filterSlice.actions
+export const { filterWord } = filterSlice.actions
 export default filterSlice.reducer

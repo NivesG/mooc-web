@@ -10,20 +10,20 @@ const notificationSlice = createSlice( {
             const content = action.payload
             return content
         },
-        removeNotification: (state) => {
+        removeNotification: () => {
             return initialState
         }
     }
 })
 
-export const {addNotification, removeNotification} = notificationSlice.actions
+export const { addNotification, removeNotification } = notificationSlice.actions
 
 export const setNotification = (content, time) => {
     return async dispatch => {
         dispatch(addNotification(content))
         setTimeout(() => {
             dispatch(removeNotification())
-          }, time)
+        }, time)
 
     }
 
