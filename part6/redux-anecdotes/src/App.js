@@ -16,7 +16,8 @@ const App = () => {
 
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(initializeAnecdotes)
+    dispatch(initializeAnecdotes())
+    console.log('JSDLKAJSLKDJALKDSJL');
   }, [dispatch])
   
   return (

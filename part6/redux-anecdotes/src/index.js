@@ -12,27 +12,11 @@ import notificationSlice from './reducers/reducer'
 import filterSlice from './reducers/filterReducer'
 import {filterWord} from './reducers/filterReducer'
 import anecdoteService from './services/anecdotes'
+import store from './store'
 
-
-
-const reducer = combineReducers({
-  anecdotes: anecdotesreducer,
-  notifications: notificationSlice,
-  filters: filterSlice
-})
-
-const store = configureStore({
-  reducer
-})
-
-anecdoteService.getAll().then(anecdotes =>
-    store.dispatch(setAnecdotes(anecdotes))
-)
 
 console.log("hahaha", store.getState())
 store.subscribe(() => console.log(store.getState()))
-
-
 
 
 
