@@ -8,7 +8,6 @@ const notificationSlice = createSlice( {
     reducers: {
         addNotification: ( state, action ) => {
             const content = action.payload
-            console.log('kakakak');
             return content
         },
         removeNotification: (state) => {

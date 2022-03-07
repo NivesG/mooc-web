@@ -1,5 +1,5 @@
 
-import { vote } from '../reducers/anecdoteReducer'
+import { addVotee } from '../reducers/anecdoteReducer'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { addNotification, removeNotification } from '../reducers/reducer'
@@ -18,7 +18,7 @@ const Anecdotelist =() => {
    
 
     const addVote =(id, content) =>{
-        dispatch(vote(id))
+        dispatch(addVotee(id))
         dispatch(addNotification('you voted ' + content))
         setTimeout(() => {
             dispatch(removeNotification())
@@ -30,7 +30,7 @@ const Anecdotelist =() => {
         <>
             <h2>Anecdotes</h2>
             {currentAnecdotes
-            .sort((a, b) => b.votes - a.votes)
+            //.sort((a, b) => b.votes - a.votes)
             .map(anecdote =>
                 <div key={anecdote.id}>
                 <div>
@@ -47,3 +47,5 @@ const Anecdotelist =() => {
 }
 
 export default Anecdotelist
+
+//https://stackoverflow.com/questions/53420055/error-while-sorting-array-of-objects-cannot-assign-to-read-only-property-2-of
