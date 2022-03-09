@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from "react-router-dom"
 
 import  {useField}  from '../hooks'
 
 
 const CreateNew = (props) => {
-    const content = useField('text')
-    const author = useField('text')
-    const info = useField('text')
+    const { reset: resetCon, ...content} = useField('text')
+    const { reset: resetAut, ...author } = useField('text')
+    const { reset: resetIn, ...info } = useField('text')
 
   
 
@@ -26,9 +26,9 @@ const CreateNew = (props) => {
 
     
 const handleReset = () => {
-    content.reset()
-    author.reset()
-    info.reset()
+    resetCon()
+    resetAut()
+    resetIn()
 }
   
     return (
@@ -57,5 +57,3 @@ const handleReset = () => {
   }
 
 export default CreateNew
-
-//onClick={handleReset()}
