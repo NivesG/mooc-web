@@ -1,41 +1,55 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-
-const BlogDetails = ({ blog, user, handleHideClick, handleLikeClick, handleDeleteClick }) => {
+const BlogDetails = ({
+  blog,
+  user,
+  handleHideClick,
+  handleLikeClick,
+  handleDeleteClick,
+}) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
     border: 'solid',
     borderWidth: 1,
-    marginBottom: 5
+    marginBottom: 5,
   }
 
   const deleteButoon = () => {
     if (blog.user?.username === user.username) {
-      return ( <button id='delete-button' onClick={handleDeleteClick}>DELETE</button>)
-    }else{
-      return(null)
+      return (
+        <button id="delete-button" onClick={handleDeleteClick}>
+          DELETE
+        </button>
+      )
+    } else {
+      return null
     }
   }
 
-
   return (
-    <div data-cy="blog" className='blogdetails' style={blogStyle}>
-      <p>{blog.title} {blog.author}<button onClick={handleHideClick}>hide</button></p>
+    <div data-cy="blog" className="blogdetails" style={blogStyle}>
+      <p>
+        {blog.title} {blog.author}
+        <button onClick={handleHideClick}>hide</button>
+      </p>
       <p>{blog.url}</p>
-      <span>likes</span><span data-cy="likes"> {blog.likes}</span> <button id='like-button' onClick={handleLikeClick}>like</button>
+      <span>likes</span>
+      <span data-cy="likes"> {blog.likes}</span>{' '}
+      <button id="like-button" onClick={handleLikeClick}>
+        like
+      </button>
       <p>{blog.user.name}</p>
       {deleteButoon()}
     </div>
   )
-
 }
 
 BlogDetails.propTypes = {
-// handleLikeClick: PropTypes.func.isRequired,
-// handleHideClick: PropTypes.func,
-// handleDeleteClick: PropTypes.func.isRequired,
+  // handleLikeClick: PropTypes.func.isRequired,
+  // handleHideClick: PropTypes.func,
+  // handleDeleteClick: PropTypes.func.isRequired,
   blog: PropTypes.shape({
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
@@ -44,9 +58,8 @@ BlogDetails.propTypes = {
   user: PropTypes.shape({
     token: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired
-  }).isRequired
+    username: PropTypes.string.isRequired,
+  }).isRequired,
 }
 
 export default BlogDetails
-

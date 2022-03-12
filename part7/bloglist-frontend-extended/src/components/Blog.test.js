@@ -4,18 +4,17 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
-describe ('<Blog />', () => {
+describe('<Blog />', () => {
   let component
 
   beforeEach(() => {
-    component = render (
+    component = render(
       <Blog
         user={user}
         updateLike={mockHandlerLike}
         deleteBlog={mockHandlerDelete}
-        blog={blog}>
-      </Blog>
-
+        blog={blog}
+      ></Blog>,
     )
   })
 
@@ -25,16 +24,16 @@ describe ('<Blog />', () => {
     user: {
       username: 'nives',
       name: 'nives',
-      id: '620fefef1e41f81dcc0cf54a'
+      id: '620fefef1e41f81dcc0cf54a',
     },
     url: 'wqeqwe',
-    likes: '38'
+    likes: '38',
   }
-  const user= {
+  const user = {
     username: 'nives',
     name: 'nives',
     id: '620fefef1e41f81dcc0cf54a',
-    token: 'asdasdasda'
+    token: 'asdasdasda',
   }
 
   const mockHandlerLike = jest.fn()
@@ -49,7 +48,7 @@ describe ('<Blog />', () => {
     expect(allBlogContent).toHaveStyle('display: none')
   })
 
-  test('clicking show button reveals all contents of blog', async() => {
+  test('clicking show button reveals all contents of blog', async () => {
     const button = screen.getByText('show')
     userEvent.click(button)
     const allBlogContent = component.container.querySelector('.long-blog')
@@ -57,5 +56,4 @@ describe ('<Blog />', () => {
     expect(component.container).toHaveTextContent(blog.url)
     expect(component.container).toHaveTextContent(blog.likes)
   })
-
 })

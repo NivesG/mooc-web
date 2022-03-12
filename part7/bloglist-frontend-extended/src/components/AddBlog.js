@@ -1,11 +1,19 @@
 import React from 'react'
 
-const AddBlogForm = ({ handleAddBlog, titleChange, authorChange, urlChange, title, author, linkUrl }) => (
+const AddBlogForm = ({
+  handleAddBlog,
+  titleChange,
+  authorChange,
+  urlChange,
+  title,
+  author,
+  linkUrl,
+}) => (
   <div>
     <h2>create new: </h2>
     <form aria-label="form" onSubmit={handleAddBlog}>
       <div>
-         Title:
+        Title:
         <input
           type="text"
           value={title}
@@ -16,7 +24,7 @@ const AddBlogForm = ({ handleAddBlog, titleChange, authorChange, urlChange, titl
         />
       </div>
       <div>
-          Author:
+        Author:
         <input
           type="text"
           value={author}
@@ -26,7 +34,7 @@ const AddBlogForm = ({ handleAddBlog, titleChange, authorChange, urlChange, titl
         />
       </div>
       <div>
-         URL:
+        URL:
         <input
           type="text"
           value={linkUrl}
@@ -36,9 +44,10 @@ const AddBlogForm = ({ handleAddBlog, titleChange, authorChange, urlChange, titl
         />
       </div>
       <div>
-        <button id='create-button' type="submit">create</button>
+        <button id="create-button" type="submit">
+          create
+        </button>
       </div>
-
     </form>
   </div>
 )

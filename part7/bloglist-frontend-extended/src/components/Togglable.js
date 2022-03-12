@@ -27,5 +27,5 @@ const Togglable = (props) => {
 export default Togglable
 
 Togglable.propTypes = {
-  buttonLabel: PropTypes.string.isRequired
+  buttonLabel: PropTypes.string.isRequired,
 }

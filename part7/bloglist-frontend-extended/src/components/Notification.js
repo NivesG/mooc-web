@@ -1,8 +1,5 @@
 import React from 'react'
 
-
-
-
 const Notification = ({ messageNotice, messageError }) => {
   const notificationStyleNotice = {
     backgroundColor: '#E0E0E0',
@@ -14,7 +11,7 @@ const Notification = ({ messageNotice, messageError }) => {
     margin: '20px',
     paddingTop: '4px',
     paddingBottom: '4px',
-    textAlign: 'center'
+    textAlign: 'center',
   }
 
   const notificationStyleError = {
@@ -27,23 +24,21 @@ const Notification = ({ messageNotice, messageError }) => {
     margin: '20px',
     paddingTop: '4px',
     paddingBottom: '4px',
-    textAlign: 'center'
-
+    textAlign: 'center',
   }
 
-
-  if(messageNotice == null && messageError == null) {
+  if (messageNotice == null && messageError == null) {
     return null
   }
   if (messageNotice !== null) {
     return (
-      <div className='notification' style={notificationStyleNotice}>
+      <div className="notification" style={notificationStyleNotice}>
         {messageNotice}
       </div>
     )
-  }else {
-    return(
-      <div className='error' style={notificationStyleError}>
+  } else {
+    return (
+      <div className="error" style={notificationStyleError}>
         {messageError}
       </div>
     )

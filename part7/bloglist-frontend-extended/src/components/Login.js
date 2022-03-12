@@ -1,12 +1,17 @@
 import React from 'react'
 
-
-const LoginForm = ({ handleLogin, passwordChange, usernameChange,username, password }) => (
+const LoginForm = ({
+  handleLogin,
+  passwordChange,
+  usernameChange,
+  username,
+  password,
+}) => (
   <form onSubmit={handleLogin}>
     <div>
-        username
+      username
       <input
-        id='username'
+        id="username"
         type="text"
         value={username}
         name="Username"
@@ -14,21 +19,19 @@ const LoginForm = ({ handleLogin, passwordChange, usernameChange,username, passw
       />
     </div>
     <div>
-        password
+      password
       <input
-        id='password'
+        id="password"
         type="password"
         value={password}
         name="Password"
         onChange={passwordChange}
       />
     </div>
-    <button id='login-button' type="submit">login</button>
+    <button id="login-button" type="submit">
+      login
+    </button>
   </form>
 )
-
-
-
-
 
 export default LoginForm

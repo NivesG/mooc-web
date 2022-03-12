@@ -1,19 +1,18 @@
 import axios from 'axios'
 const baseUrl = '/api/blogs'
 
-
 let token = null
 
-const setToken = newToken => {
+const setToken = (newToken) => {
   token = `bearer ${newToken}`
 }
 
 const getAll = () => {
   const request = axios.get(baseUrl)
-  return request.then(response => response.data)
+  return request.then((response) => response.data)
 }
 
-const create = async newObject => {
+const create = async (newObject) => {
   const config = {
     headers: { Authorization: token },
   }
@@ -25,10 +24,10 @@ const create = async newObject => {
 //spremeni obliko v async
 const addLike = (id, newObject) => {
   const request = axios.put(baseUrl + '/' + id, newObject)
-  return request.then(response => response.data)
+  return request.then((response) => response.data)
 }
 
-const deleteBlog = async(id) => {
+const deleteBlog = async (id) => {
   const config = {
     headers: { Authorization: token },
   }
