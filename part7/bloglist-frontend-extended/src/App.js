@@ -9,7 +9,7 @@ import Togglable from './components/Togglable'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { setNotification } from './reducers/notificationReducer'
-import { addBlog, initializeBlogs } from './reducers/blogReducer'
+import { addBlog, addVoteBlog, initializeBlogs } from './reducers/blogReducer'
 
 const appStyle = {
   backgroundColor: '#f0f0f0',
@@ -94,18 +94,8 @@ const App = () => {
     }
   }
 
-  const updateLike = async (id, blogObject) => {
-    const updatedBlog = {
-      ...blogObject,
-      likes: blogObject.likes + 1,
-    }
-
-    try {
-      await blogService.addLike(id, updatedBlog)
-      //setBlogs(blogs.map((blog) => (blog.id !== id ? blog : updatedBlog)))
-    } catch (exception) {
-      console.log(exception)
-    }
+  const updateLike = (blogObject) => {
+    dispatch(addVoteBlog(blogObject))
   }
 
   const loginNotice = () => <p>{user.username} is logged in</p>

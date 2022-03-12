@@ -22,8 +22,9 @@ const Blog = ({ blog, user, updateLike, deleteBlog }) => {
   }
 
   const handleLike = async (event) => {
-    const blogId = blog.id
-    updateLike(blogId, blog)
+    //const blogId = blog.id
+    //updateLike(blogId, blog)
+    updateLike(blog)
   }
 
   const handleDelete = async () => {
