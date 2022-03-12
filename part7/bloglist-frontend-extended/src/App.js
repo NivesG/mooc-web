@@ -6,9 +6,10 @@ import Notification from './components/Notification'
 import LoginForm from './components/Login'
 import AddBlogForm from './components/AddBlog'
 import Togglable from './components/Togglable'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { setNotification } from './reducers/notificationReducer'
+import { addBlog, initializeBlogs } from './reducers/blogReducer'
 
 const appStyle = {
   backgroundColor: '#f0f0f0',
@@ -19,19 +20,17 @@ const appStyle = {
 }
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [linkUrl, setLinkUrl] = useState('')
+
+  const blogs = useSelector((state) => state.blogs)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -72,24 +71,13 @@ const App = () => {
     setUser(null)
   }
 
-  const handleAddBlog = async (event) => {
-    event.preventDefault()
-    const newBlog = {
-      title: title,
-      author: author,
-      url: linkUrl,
-      likes: 0,
-      userId: user.id,
-    }
-
+  const handleAddBlog = (newBlog) => {
     try {
-      const addedBlog = await blogService.create(newBlog)
-      const updatedBlogs = await blogService.getAll()
-      setBlogs(updatedBlogs)
+      dispatch(addBlog(newBlog, user))
       dispatch(
         setNotification(
           {
-            notice: `A new blog ${addedBlog.title} by ${addedBlog.author} was added`,
+            notice: `A new blog ${newBlog.title} by ${newBlog.author} was added`,
           },
           4000,
         ),
@@ -104,10 +92,6 @@ const App = () => {
         ),
       )
     }
-
-    setTitle('')
-    setAuthor('')
-    setLinkUrl('')
   }
 
   const updateLike = async (id, blogObject) => {
@@ -118,7 +102,7 @@ const App = () => {
 
     try {
       await blogService.addLike(id, updatedBlog)
-      setBlogs(blogs.map((blog) => (blog.id !== id ? blog : updatedBlog)))
+      //setBlogs(blogs.map((blog) => (blog.id !== id ? blog : updatedBlog)))
     } catch (exception) {
       console.log(exception)
     }
@@ -150,7 +134,7 @@ const App = () => {
             4000,
           ),
         )
-        setBlogs(blogs.filter((blog) => blog.id !== id))
+        //setBlogs(blogs.filter((blog) => blog.id !== id))
       } catch (exception) {
         dispatch(
           setNotification(
@@ -185,19 +169,11 @@ const App = () => {
           {loginNotice()}
           {logoutForm()}
           <Togglable buttonLabel="new note">
-            <AddBlogForm
-              author={author}
-              title={title}
-              linkUrl={linkUrl}
-              handleAddBlog={handleAddBlog}
-              authorChange={({ target }) => setAuthor(target.value)}
-              titleChange={({ target }) => setTitle(target.value)}
-              urlChange={({ target }) => setLinkUrl(target.value)}
-            />
+            <AddBlogForm handleAddBlog={handleAddBlog} />
           </Togglable>
           <h2>Blogs</h2>
           {blogs
-            .sort((a, b) => b.likes - a.likes)
+            //.sort((a, b) => b.likes - a.likes)
             .map((blog) => (
               <Blog
                 user={user}

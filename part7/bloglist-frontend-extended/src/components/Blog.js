@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import BlogDetails from './BlogDetails'
+//import { useSelector } from 'react-redux'
 
 const blogStyle = {
   backgroundColor: '#ffffff',
@@ -10,6 +11,7 @@ const blogStyle = {
 }
 
 const Blog = ({ blog, user, updateLike, deleteBlog }) => {
+  //const blogs = useSelector((state) => state.blogs)
   const [visibility, setVisibility] = useState(false)
 
   const hideWhenVisible = { display: visibility ? 'none' : '' }
