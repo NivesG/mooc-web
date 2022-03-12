@@ -6,6 +6,9 @@ import Notification from './components/Notification'
 import LoginForm from './components/Login'
 import AddBlogForm from './components/AddBlog'
 import Togglable from './components/Togglable'
+import { useDispatch } from 'react-redux'
+
+import { setNotification } from './reducers/notificationReducer'
 
 const appStyle = {
   backgroundColor: '#f0f0f0',
@@ -17,14 +20,14 @@ const appStyle = {
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [noticeMessage, setNoticeMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [linkUrl, setLinkUrl] = useState('')
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -53,10 +56,14 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong username or password')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(
+        setNotification(
+          {
+            error: 'wrong username or password',
+          },
+          4000,
+        ),
+      )
     }
   }
 
@@ -79,17 +86,23 @@ const App = () => {
       const addedBlog = await blogService.create(newBlog)
       const updatedBlogs = await blogService.getAll()
       setBlogs(updatedBlogs)
-      setNoticeMessage(
-        `A new blog ${addedBlog.title} by ${addedBlog.author} was added`,
+      dispatch(
+        setNotification(
+          {
+            notice: `A new blog ${addedBlog.title} by ${addedBlog.author} was added`,
+          },
+          4000,
+        ),
       )
-      setTimeout(() => {
-        setNoticeMessage(null)
-      }, 4000)
     } catch (exception) {
-      setErrorMessage('adding blog failed')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(
+        setNotification(
+          {
+            error: 'adding blog failed',
+          },
+          4000,
+        ),
+      )
     }
 
     setTitle('')
@@ -129,18 +142,24 @@ const App = () => {
       try {
         const deletedBlog = await blogService.deleteBlog(id)
         console.log(deletedBlog)
-        setNoticeMessage(
-          `Blog ${delBlog[0].title} by ${delBlog[0].author} was deleted`,
+        dispatch(
+          setNotification(
+            {
+              notice: `Blog ${delBlog[0].title} by ${delBlog[0].author} was deleted`,
+            },
+            4000,
+          ),
         )
-        setTimeout(() => {
-          setNoticeMessage(null)
-        }, 4000)
         setBlogs(blogs.filter((blog) => blog.id !== id))
       } catch (exception) {
-        setErrorMessage('brisanje ni uspelo - nisi autor')
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
+        dispatch(
+          setNotification(
+            {
+              error: 'you are not authorised to delete blog',
+            },
+            4000,
+          ),
+        )
       }
     }
   }
@@ -148,7 +167,7 @@ const App = () => {
   return (
     <div style={appStyle}>
       <h1>blogs</h1>
-      <Notification messageNotice={noticeMessage} messageError={errorMessage} />
+      <Notification />
       {user === null ? (
         <div>
           <Togglable buttonLabel="login">

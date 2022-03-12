@@ -1,6 +1,7 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-const Notification = ({ messageNotice, messageError }) => {
+const Notification = () => {
   const notificationStyleNotice = {
     backgroundColor: '#E0E0E0',
     borderStyle: 'solid',
@@ -27,19 +28,21 @@ const Notification = ({ messageNotice, messageError }) => {
     textAlign: 'center',
   }
 
-  if (messageNotice == null && messageError == null) {
+  const notification = useSelector((state) => state.notifications)
+
+  if (notification.notice == null && notification.error == null) {
     return null
   }
-  if (messageNotice !== null) {
+  if (notification.notice !== null) {
     return (
       <div className="notification" style={notificationStyleNotice}>
-        {messageNotice}
+        {notification.notice}
       </div>
     )
   } else {
     return (
       <div className="error" style={notificationStyleError}>
-        {messageError}
+        {notification.error}
       </div>
     )
   }
