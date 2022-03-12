@@ -9,7 +9,12 @@ import Togglable from './components/Togglable'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { setNotification } from './reducers/notificationReducer'
-import { addBlog, addVoteBlog, initializeBlogs } from './reducers/blogReducer'
+import {
+  addBlog,
+  addVoteBlog,
+  initializeBlogs,
+  delBlog,
+} from './reducers/blogReducer'
 
 const appStyle = {
   backgroundColor: '#f0f0f0',
@@ -106,25 +111,23 @@ const App = () => {
     </form>
   )
 
-  const deleteBlog = async (id) => {
-    const delBlog = blogs.filter((blog) => blog.id === id)
+  const deleteBlog = (id) => {
+    const delBloge = blogs.filter((blog) => blog.id === id)
     if (
       window.confirm(
-        `are you shure you want to delete blog ${delBlog[0].title} by ${delBlog[0].author}?`,
+        `are you shure you want to delete blog ${delBloge[0].title} by ${delBloge[0].author}?`,
       )
     ) {
       try {
-        const deletedBlog = await blogService.deleteBlog(id)
-        console.log(deletedBlog)
+        dispatch(delBlog(id))
         dispatch(
           setNotification(
             {
-              notice: `Blog ${delBlog[0].title} by ${delBlog[0].author} was deleted`,
+              notice: `Blog ${delBloge[0].title} by ${delBloge[0].author} was deleted`,
             },
             4000,
           ),
         )
-        //setBlogs(blogs.filter((blog) => blog.id !== id))
       } catch (exception) {
         dispatch(
           setNotification(
