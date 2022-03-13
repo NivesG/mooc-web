@@ -6,6 +6,7 @@ import Notification from './components/Notification'
 import LoginForm from './components/Login'
 import AddBlogForm from './components/AddBlog'
 import Togglable from './components/Togglable'
+import Users from './components/Users'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { setNotification } from './reducers/notificationReducer'
@@ -17,6 +18,7 @@ import {
 } from './reducers/blogReducer'
 
 import { login, logout } from './reducers/loginReducer'
+import { initializeUsers } from './reducers/usersReducer'
 
 const appStyle = {
   backgroundColor: '#f0f0f0',
@@ -37,6 +39,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs())
+    dispatch(initializeUsers())
   }, [dispatch])
 
   useEffect(() => {
@@ -166,6 +169,8 @@ const App = () => {
           <Togglable buttonLabel="new note">
             <AddBlogForm handleAddBlog={handleAddBlog} />
           </Togglable>
+          <h2>Users</h2>
+          <Users />
           <h2>Blogs</h2>
           {blogs
             //.sort((a, b) => b.likes - a.likes)
