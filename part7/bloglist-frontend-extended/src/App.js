@@ -16,6 +16,8 @@ import {
   delBlog,
 } from './reducers/blogReducer'
 
+import { login, logout } from './reducers/loginReducer'
+
 const appStyle = {
   backgroundColor: '#f0f0f0',
   display: 'flex',
@@ -27,9 +29,9 @@ const appStyle = {
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
 
   const blogs = useSelector((state) => state.blogs)
+  const userD = useSelector((state) => state.user)
 
   const dispatch = useDispatch()
 
@@ -41,10 +43,10 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(login(user))
       blogService.setToken(user.token)
     }
-  }, [])
+  }, [dispatch])
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -56,14 +58,14 @@ const App = () => {
 
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch(login(user))
       setUsername('')
       setPassword('')
     } catch (exception) {
       dispatch(
         setNotification(
           {
-            error: 'wrong username or password',
+            error: 'wrong credentials',
           },
           4000,
         ),
@@ -73,12 +75,12 @@ const App = () => {
 
   const handleLogout = async (event) => {
     window.localStorage.removeItem('loggedBlogappUser')
-    setUser(null)
+    dispatch(logout())
   }
 
   const handleAddBlog = (newBlog) => {
     try {
-      dispatch(addBlog(newBlog, user))
+      dispatch(addBlog(newBlog, userD))
       dispatch(
         setNotification(
           {
@@ -103,7 +105,7 @@ const App = () => {
     dispatch(addVoteBlog(blogObject))
   }
 
-  const loginNotice = () => <p>{user.username} is logged in</p>
+  const loginNotice = () => <p>{userD.username} is logged in</p>
 
   const logoutForm = () => (
     <form onSubmit={handleLogout}>
@@ -145,7 +147,7 @@ const App = () => {
     <div style={appStyle}>
       <h1>blogs</h1>
       <Notification />
-      {user === null ? (
+      {userD === null ? (
         <div>
           <Togglable buttonLabel="login">
             <LoginForm
@@ -169,7 +171,7 @@ const App = () => {
             //.sort((a, b) => b.likes - a.likes)
             .map((blog) => (
               <Blog
-                user={user}
+                user={userD}
                 key={blog.id}
                 blog={blog}
                 updateLike={updateLike}

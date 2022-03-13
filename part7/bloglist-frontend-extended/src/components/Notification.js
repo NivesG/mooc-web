@@ -30,19 +30,18 @@ const Notification = () => {
 
   const notification = useSelector((state) => state.notifications)
 
-  if (notification.notice == null && notification.error == null) {
+  if (!notification.error && !notification.notice) {
     return null
-  }
-  if (notification.notice !== null) {
+  } else if (notification.error) {
     return (
-      <div className="notification" style={notificationStyleNotice}>
-        {notification.notice}
+      <div className="notification" style={notificationStyleError}>
+        {notification.error}
       </div>
     )
   } else {
     return (
-      <div className="error" style={notificationStyleError}>
-        {notification.error}
+      <div className="error" style={notificationStyleNotice}>
+        {notification.notice}
       </div>
     )
   }
