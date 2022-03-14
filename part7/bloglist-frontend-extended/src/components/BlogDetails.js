@@ -33,6 +33,10 @@ const BlogDetails = () => {
   const handleLikeClick = async (event) => {
     dispatch(addVoteBlog(blog))
   }
+
+  if (!blog) {
+    return null
+  }
   return (
     <div data-cy="blog" className="blogdetails" style={blogStyle}>
       <h2>
@@ -47,7 +51,7 @@ const BlogDetails = () => {
         </button>
       </span>
       <p>
-        <span>added by {blog.user.name}</span>
+        <span>added by {blog.user?.name}</span>
       </p>
     </div>
   )

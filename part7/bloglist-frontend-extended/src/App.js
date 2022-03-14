@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+// eslint-disable-next-line no-unused-vars
 import Notification from './components/Notification'
 import LoginForm from './components/Login'
 import AddBlogForm from './components/AddBlog'
@@ -10,7 +11,13 @@ import Users from './components/Users'
 import UserDetails from './components/UserDetails'
 import { useDispatch, useSelector } from 'react-redux'
 // eslint-disable-next-line no-unused-vars
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+} from 'react-router-dom'
 
 import { setNotification } from './reducers/notificationReducer'
 import {
@@ -43,6 +50,7 @@ const App = () => {
   const userD = useSelector((state) => state.user)
 
   const dispatch = useDispatch()
+  //const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -115,7 +123,6 @@ const App = () => {
     dispatch(addVoteBlog(blogObject))
   }
 */
-  const loginNotice = () => <p>{userD.username} is logged in</p>
 
   const logoutForm = () => (
     <form onSubmit={handleLogout}>
@@ -153,40 +160,79 @@ const App = () => {
     }
   }
 */
+  const padding = {
+    padding: 5,
+  }
+
+  const Navbar = () => {
+    const navBar = {
+      paddingTop: 10,
+      paddingBottom: 10,
+      paddingLeft: 2,
+      border: 'solid',
+      borderWidth: 1,
+      marginBottom: 30,
+    }
+    return (
+      <div style={navBar}>
+        <Link style={padding} to="/">
+          blogs
+        </Link>
+        <Link style={padding} to="/users">
+          users
+        </Link>
+        <span>
+          {userD.username} is logged in {logoutForm()}
+        </span>
+      </div>
+    )
+  }
   return (
     <div style={appStyle}>
       <Router>
-        <h1>blogs</h1>
-        <Notification />
-        {userD === null ? (
+        <div>
+          <h2>blog app</h2>
           <div>
-            <Togglable buttonLabel="login">
-              <LoginForm
-                username={username}
-                password={password}
-                usernameChange={({ target }) => setUsername(target.value)}
-                passwordChange={({ target }) => setPassword(target.value)}
-                handleLogin={handleLogin}
-              />
-            </Togglable>
+            <div>
+              {userD ? (
+                <>
+                  <Navbar />
+                  <Togglable buttonLabel="new note">
+                    <AddBlogForm handleAddBlog={handleAddBlog} />
+                  </Togglable>
+                </>
+              ) : null}
+            </div>
           </div>
-        ) : (
+
           <div>
-            {loginNotice()}
-            {logoutForm()}
-            <Togglable buttonLabel="new note">
-              <AddBlogForm handleAddBlog={handleAddBlog} />
-            </Togglable>
-            <h2>Users</h2>
-            <Link to="/users">show users</Link>
             <Routes>
+              <Route
+                path="/login"
+                element={
+                  !userD ? (
+                    <LoginForm
+                      username={username}
+                      password={password}
+                      usernameChange={({ target }) => setUsername(target.value)}
+                      passwordChange={({ target }) => setPassword(target.value)}
+                      handleLogin={handleLogin}
+                    />
+                  ) : (
+                    <Navigate replace to="/" />
+                  )
+                }
+              />
               <Route path="/users" element={<Users />} />
               <Route path="/users/:id" element={<UserDetails />} />
               <Route path="/blogs/:id" element={<BlogDetails />} />
-              <Route path="/" element={<Blog />} />
+              <Route
+                path="/"
+                element={userD ? <Blog /> : <Navigate replace to="/login" />}
+              />
             </Routes>
           </div>
-        )}
+        </div>
       </Router>
     </div>
   )
