@@ -8,6 +8,7 @@ import blogReducer from './reducers/blogReducer'
 import notificationReducer from './reducers/notificationReducer'
 import loginReducer from './reducers/loginReducer'
 import usersReducer from './reducers/usersReducer'
+//import { Router } from 'react-router-dom'
 
 const store = configureStore({
   reducer: {
@@ -24,5 +25,6 @@ ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
+
   document.getElementById('root'),
 )

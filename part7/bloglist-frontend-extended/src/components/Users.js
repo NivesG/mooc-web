@@ -1,5 +1,8 @@
 import React /*{ useState } */ from 'react'
+
 import { useSelector } from 'react-redux'
+// eslint-disable-next-line no-unused-vars
+import { Link } from 'react-router-dom'
 
 const Users = () => {
   const users = useSelector((state) => state.users)
@@ -9,9 +12,11 @@ const Users = () => {
       <div>
         {users.map((user) => (
           <div key={user.id}>
-            <p>
-              {user.name} {user.blogs.length}
-            </p>
+            <span>
+              <Link to={`/users/${user.id}`}>
+                {user.name} {user.blogs.length}
+              </Link>
+            </span>
           </div>
         ))}
       </div>

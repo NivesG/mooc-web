@@ -7,18 +7,25 @@ import LoginForm from './components/Login'
 import AddBlogForm from './components/AddBlog'
 import Togglable from './components/Togglable'
 import Users from './components/Users'
+import UserDetails from './components/UserDetails'
 import { useDispatch, useSelector } from 'react-redux'
+// eslint-disable-next-line no-unused-vars
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 import { setNotification } from './reducers/notificationReducer'
 import {
   addBlog,
+  // eslint-disable-next-line no-unused-vars
   addVoteBlog,
   initializeBlogs,
+  // eslint-disable-next-line no-unused-vars
   delBlog,
 } from './reducers/blogReducer'
 
 import { login, logout } from './reducers/loginReducer'
 import { initializeUsers } from './reducers/usersReducer'
+import BlogDetails from './components/BlogDetails'
+//import BlogDetails from './components/BlogDetails'
 
 const appStyle = {
   backgroundColor: '#f0f0f0',
@@ -32,7 +39,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const blogs = useSelector((state) => state.blogs)
+  //const blogs = useSelector((state) => state.blogs)
   const userD = useSelector((state) => state.user)
 
   const dispatch = useDispatch()
@@ -103,11 +110,11 @@ const App = () => {
       )
     }
   }
-
+  /*
   const updateLike = (blogObject) => {
     dispatch(addVoteBlog(blogObject))
   }
-
+*/
   const loginNotice = () => <p>{userD.username} is logged in</p>
 
   const logoutForm = () => (
@@ -115,7 +122,7 @@ const App = () => {
       <button type="submit">logout</button>
     </form>
   )
-
+  /*
   const deleteBlog = (id) => {
     const delBloge = blogs.filter((blog) => blog.id === id)
     if (
@@ -145,46 +152,42 @@ const App = () => {
       }
     }
   }
-
+*/
   return (
     <div style={appStyle}>
-      <h1>blogs</h1>
-      <Notification />
-      {userD === null ? (
-        <div>
-          <Togglable buttonLabel="login">
-            <LoginForm
-              username={username}
-              password={password}
-              usernameChange={({ target }) => setUsername(target.value)}
-              passwordChange={({ target }) => setPassword(target.value)}
-              handleLogin={handleLogin}
-            />
-          </Togglable>
-        </div>
-      ) : (
-        <div>
-          {loginNotice()}
-          {logoutForm()}
-          <Togglable buttonLabel="new note">
-            <AddBlogForm handleAddBlog={handleAddBlog} />
-          </Togglable>
-          <h2>Users</h2>
-          <Users />
-          <h2>Blogs</h2>
-          {blogs
-            //.sort((a, b) => b.likes - a.likes)
-            .map((blog) => (
-              <Blog
-                user={userD}
-                key={blog.id}
-                blog={blog}
-                updateLike={updateLike}
-                deleteBlog={deleteBlog}
+      <Router>
+        <h1>blogs</h1>
+        <Notification />
+        {userD === null ? (
+          <div>
+            <Togglable buttonLabel="login">
+              <LoginForm
+                username={username}
+                password={password}
+                usernameChange={({ target }) => setUsername(target.value)}
+                passwordChange={({ target }) => setPassword(target.value)}
+                handleLogin={handleLogin}
               />
-            ))}
-        </div>
-      )}
+            </Togglable>
+          </div>
+        ) : (
+          <div>
+            {loginNotice()}
+            {logoutForm()}
+            <Togglable buttonLabel="new note">
+              <AddBlogForm handleAddBlog={handleAddBlog} />
+            </Togglable>
+            <h2>Users</h2>
+            <Link to="/users">show users</Link>
+            <Routes>
+              <Route path="/users" element={<Users />} />
+              <Route path="/users/:id" element={<UserDetails />} />
+              <Route path="/blogs/:id" element={<BlogDetails />} />
+              <Route path="/" element={<Blog />} />
+            </Routes>
+          </div>
+        )}
+      </Router>
     </div>
   )
 }

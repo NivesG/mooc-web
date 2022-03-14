@@ -1,6 +1,9 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react'
+// eslint-disable-next-line no-unused-vars
 import BlogDetails from './BlogDetails'
-//import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const blogStyle = {
   backgroundColor: '#ffffff',
@@ -8,19 +11,14 @@ const blogStyle = {
   borderRadius: '4px',
   color: '#333333',
   margin: '0.25em 0',
+  borderColor: 'black',
 }
 
-const Blog = ({ blog, user, updateLike, deleteBlog }) => {
+const Blog = () => {
   //const blogs = useSelector((state) => state.blogs)
-  const [visibility, setVisibility] = useState(false)
 
-  const hideWhenVisible = { display: visibility ? 'none' : '' }
-  const showWhenVisible = { display: visibility ? '' : 'none' }
-
-  const toggleVisibility = () => {
-    setVisibility(!visibility)
-  }
-
+  const blogs = useSelector((state) => state.blogs)
+  /*
   const handleLike = async (event) => {
     //const blogId = blog.id
     //updateLike(blogId, blog)
@@ -31,23 +29,17 @@ const Blog = ({ blog, user, updateLike, deleteBlog }) => {
     const blogId = blog.id
     deleteBlog(blogId)
   }
-
+*/
   return (
-    <div className="blog" style={blogStyle}>
-      <div data-testid="blogId" style={hideWhenVisible} className="short-blog">
-        <p>sdasdas</p>
-        {blog.title} {blog.author}
-        <button onClick={toggleVisibility}>show</button>
-      </div>
-      <div style={showWhenVisible} className="long-blog">
-        <BlogDetails
-          blog={blog}
-          user={user}
-          handleHideClick={toggleVisibility}
-          handleLikeClick={handleLike}
-          handleDeleteClick={handleDelete}
-        />
-      </div>
+    <div style={blogStyle}>
+      <h2>Blogs</h2>
+      {blogs.map((blog) => (
+        <div style={blogStyle} key={blog.id}>
+          <Link to={`/blogs/${blog.id}`}>
+            {blog.title} {blog.author}
+          </Link>
+        </div>
+      ))}
     </div>
   )
 }
