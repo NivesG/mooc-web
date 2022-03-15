@@ -191,13 +191,13 @@ const App = () => {
     <div style={appStyle}>
       <Router>
         <div>
-          <h2>blog app</h2>
           <div>
             <div>
               {userD ? (
                 <>
                   <Navbar />
-                  <Togglable buttonLabel="new note">
+                  <h2>blog app</h2>
+                  <Togglable buttonLabel="new blog">
                     <AddBlogForm handleAddBlog={handleAddBlog} />
                   </Togglable>
                 </>

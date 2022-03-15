@@ -1,7 +1,9 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { addVoteBlog } from '../reducers/blogReducer'
+import { addComments, addVoteBlog } from '../reducers/blogReducer'
+import Comments from './Comments'
+import CommentForm from './CommentForm'
 
 const BlogDetails = () => {
   const blogStyle = {
@@ -16,7 +18,7 @@ const BlogDetails = () => {
   const blogD = blogs.filter((blog) => blog.id === id)
   const blog = blogD[0]
   const dispatch = useDispatch()
-  console.log(blogD)
+  console.log(blog)
   /*
   const deleteButoon = () => {
     if (blog.user?.username === user.username) {
@@ -30,6 +32,13 @@ const BlogDetails = () => {
     }
   }
 */
+
+  const handleCommentClick = (commente) => {
+    const comment = {
+      content: commente,
+    }
+    dispatch(addComments(blog.id, comment))
+  }
   const handleLikeClick = async (event) => {
     dispatch(addVoteBlog(blog))
   }
@@ -49,10 +58,26 @@ const BlogDetails = () => {
         <button id="like-button" onClick={handleLikeClick}>
           like
         </button>
+        <button id="like-button" onClick={handleCommentClick}>
+          comment
+        </button>
       </span>
       <p>
         <span>added by {blog.user?.name}</span>
       </p>
+      <div>
+        <h3>Comments</h3>
+        <CommentForm />
+        {blog.comments.length !== 0 ? (
+          <ul>
+            {blog.comments.map((comment) => (
+              <Comments key={comment.id} comment={comment.content} />
+            ))}
+          </ul>
+        ) : (
+          <p>no comments yet</p>
+        )}
+      </div>
     </div>
   )
 }
