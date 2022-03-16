@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-//import userService from '../services/login'
+import blogService from '../services/blogs'
+import loginService from '../services/login'
 
 const initialState = null
 
@@ -8,6 +9,7 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     loginUser(state, action) {
+      console.log(action)
       const user = action.payload
       return user
     },
@@ -19,9 +21,16 @@ const loginSlice = createSlice({
 
 export const { loginUser, logoutUser } = loginSlice.actions
 
-export const login = (user) => {
+export const login = (username, password) => {
   return async (dispatch) => {
+    const user = await loginService.login({
+      username,
+      password,
+    })
+    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+    blogService.setToken(user.token)
     dispatch(loginUser(user))
+    console.log(user)
   }
 }
 

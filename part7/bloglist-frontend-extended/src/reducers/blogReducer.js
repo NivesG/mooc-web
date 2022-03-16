@@ -25,7 +25,7 @@ const blogSlice = createSlice({
       return state.filter((blog) => blog.id !== id)
     },
     addComment(state, action) {
-      console.log('KAR DOBI REDUCER ZA STATE PAYLOAD', action.payload)
+      console.log(action)
       const id = action.payload.id
       const blogeId = action.payload.blogId
       const content = action.payload.content
@@ -36,8 +36,6 @@ const blogSlice = createSlice({
         ...blog,
         comments: [...blog.comments, newComment],
       }
-      //const updatedBlog = blog.comments.concat(newComment)
-      console.log('blog po dodaji komentatrja', updatedBlog)
       return state.map((blog) => (blog.id !== blogeId ? blog : updatedBlog))
     },
   },
@@ -49,14 +47,14 @@ export const { createBlog, setBlogs, addLike, deletingBlog, addComment } =
 export const initializeBlogs = () => {
   return async (dispatch) => {
     const blogs = await blogService.getAll()
-    console.log('reducer', blogs)
     dispatch(setBlogs(blogs))
   }
 }
 
 export const addBlog = (blog, user) => {
   return async (dispatch) => {
-    const boka = { ...blog, userId: user.id }
+    console.log(user)
+    const boka = { ...blog, user: user }
     const newBlog = await blogService.create(boka)
     dispatch(createBlog(newBlog))
   }
@@ -65,7 +63,6 @@ export const addBlog = (blog, user) => {
 export const addVoteBlog = (votedBlog) => {
   const updatedBlog = { ...votedBlog, likes: votedBlog.likes + 1 }
   return async (dispatch) => {
-    console.log('voted blog ', votedBlog)
     await blogService.addLike(votedBlog.id, updatedBlog)
     dispatch(addLike(updatedBlog))
   }
@@ -73,8 +70,7 @@ export const addVoteBlog = (votedBlog) => {
 
 export const delBlog = (id) => {
   return async (dispatch) => {
-    const deletedBlog = await blogService.deleteBlog(id)
-    console.log(deletedBlog)
+    await blogService.deleteBlog(id)
     dispatch(deletingBlog(id))
   }
 }
@@ -83,7 +79,6 @@ export const addComments = (id, comment) => {
   const blogId = id
   return async (dispatch) => {
     const newComment = await blogService.addComment(id, comment)
-    console.log('REDUCER NOVI KOMENTAR', newComment)
     dispatch(addComment({ ...newComment, blogId }))
   }
 }

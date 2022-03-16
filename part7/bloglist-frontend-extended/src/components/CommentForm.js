@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { addComments } from '../reducers/blogReducer'
+import { Form, Button } from 'react-bootstrap'
 
 const CommentForm = () => {
-  //const [user, setUser] = useState(null)
   const [content, setContent] = useState('')
   const blogs = useSelector((state) => state.blogs)
   const id = useParams().id
@@ -22,23 +22,21 @@ const CommentForm = () => {
   }
 
   return (
-    <div>
-      <form aria-label="form" onSubmit={handleCommentClick}>
-        <div>
-          <input
-            type="text"
-            value={content}
-            id="content"
-            name="content"
-            onChange={({ target }) => setContent(target.value)}
-            autoFocus
-          />
-          <button id="create-button" type="submit">
-            add comment
-          </button>
-        </div>
-      </form>
-    </div>
+    <Form onSubmit={handleCommentClick}>
+      <Form.Group className="mb-3">
+        <Form.Label></Form.Label>
+        <Form.Control
+          type="text"
+          name="content"
+          value={content}
+          placeholder="enter comment"
+          onChange={({ target }) => setContent(target.value)}
+        ></Form.Control>
+      </Form.Group>
+      <Button variant="primary" size="sm" type="submit">
+        add comment
+      </Button>
+    </Form>
   )
 }
 

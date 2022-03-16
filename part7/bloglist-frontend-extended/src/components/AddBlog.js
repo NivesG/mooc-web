@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import { Form, Button } from 'react-bootstrap'
 
 const AddBlogForm = ({ handleAddBlog }) => {
-  //const [user, setUser] = useState(null)
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [linkUrl, setLinkUrl] = useState('')
@@ -13,53 +13,49 @@ const AddBlogForm = ({ handleAddBlog }) => {
       author: author,
       url: linkUrl,
       likes: 0,
-      //userId: user.id,
     }
     handleAddBlog(newBlog)
+    setTitle('')
+    setAuthor('')
+    setLinkUrl('')
   }
 
   return (
-    <div>
-      <h2>create new: </h2>
-      <form aria-label="form" onSubmit={addBlog}>
-        <div>
-          Title:
-          <input
+    <>
+      <h2>Create new blog</h2>
+      <Form onSubmit={addBlog}>
+        <Form.Group className="mb-2">
+          <Form.Label>title:</Form.Label>
+          <Form.Control
             type="text"
-            value={title}
-            id="title"
             name="title"
+            value={title}
             onChange={({ target }) => setTitle(target.value)}
-            autoFocus
-          />
-        </div>
-        <div>
-          Author:
-          <input
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group className="mb-2">
+          <Form.Label>author:</Form.Label>
+          <Form.Control
             type="text"
-            value={author}
-            id="author"
             name="author"
+            value={author}
             onChange={({ target }) => setAuthor(target.value)}
-          />
-        </div>
-        <div>
-          URL:
-          <input
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group className="mb-2">
+          <Form.Label>url:</Form.Label>
+          <Form.Control
             type="text"
-            value={linkUrl}
-            id="linkUrl"
             name="linkUrl"
+            value={linkUrl}
             onChange={({ target }) => setLinkUrl(target.value)}
-          />
-        </div>
-        <div>
-          <button id="create-button" type="submit">
-            create
-          </button>
-        </div>
-      </form>
-    </div>
+          ></Form.Control>
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Create
+        </Button>
+      </Form>
+    </>
   )
 }
 

@@ -4,43 +4,27 @@ import React, { useState } from 'react'
 import BlogDetails from './BlogDetails'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-
-const blogStyle = {
-  backgroundColor: '#ffffff',
-  padding: '1em',
-  borderRadius: '4px',
-  color: '#333333',
-  margin: '0.25em 0',
-  borderColor: 'black',
-}
+import Table from 'react-bootstrap/Table'
 
 const Blog = () => {
-  //const blogs = useSelector((state) => state.blogs)
-
   const blogs = useSelector((state) => state.blogs)
-  /*
-  const handleLike = async (event) => {
-    //const blogId = blog.id
-    //updateLike(blogId, blog)
-    updateLike(blog)
-  }
 
-  const handleDelete = async () => {
-    const blogId = blog.id
-    deleteBlog(blogId)
-  }
-*/
   return (
-    <div style={blogStyle}>
+    <>
       <h2>Blogs</h2>
-      {blogs.map((blog) => (
-        <div style={blogStyle} key={blog.id}>
-          <Link to={`/blogs/${blog.id}`}>
-            {blog.title} {blog.author}
-          </Link>
-        </div>
-      ))}
-    </div>
+      <Table striped>
+        <tbody>
+          {blogs.map((blog) => (
+            <tr key={blog.id}>
+              <td>
+                <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+              </td>
+              <td>{blog.author}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </>
   )
 }
 
