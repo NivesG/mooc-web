@@ -21,8 +21,15 @@
     "typescript": "^4.7.3"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.1"
   },
-   "eslintIgnore": ["hello.js", "world.js", "/build", "build", "/build/*", "**/build/*.js"]
- 
+  "eslintIgnore": [
+    "hello.js",
+    "world.js",
+    "/build",
+    "build",
+    "/build/*",
+    "**/build/*.js"
+  ]
 }
