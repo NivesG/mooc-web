@@ -1,5 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import patientsData from '../data/patients.json';
-import { PatientRedu } from '../types';
+import { PatientRedu, Patient, newPatient } from '../types';
+
+
+import { v1 as uuid } from 'uuid';
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+const id: string = uuid();
 
 
 const patients: Array<PatientRedu> = patientsData as Array<PatientRedu>;
@@ -14,11 +21,16 @@ const getEntries = (): Array<PatientRedu> => {
   }));
 };
 
-const addDiary = () => {
-  return null;
+const addPatient = ( entry: newPatient): Patient => {
+  const newPatient = {
+    id,
+    ...entry
+  };
+  patients.push(newPatient);
+  return newPatient;
 };
 
 export default {
   getEntries,
-  addDiary
+  addPatient
 };

@@ -3,6 +3,7 @@
 import express from 'express';
 //import diagnosesService from "../services/diagnosesService";
 import patientsService from "../services/patientsService";
+import toNewPatientEntry from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
@@ -15,7 +16,18 @@ router.get('/', (_req, res) => {
 });
 
 router.post('/', (_req, res) => {
-  res.send('Saving a diary!');
+  try{
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const newPatient = toNewPatientEntry(_req.body);
+    const addedEntry = patientsService.addPatient(newPatient);
+    res.json(addedEntry);
+  }catch (error: unknown) {
+    let errorMessage = 'Something went wrong.';
+    if (error instanceof Error) {
+      errorMessage += ' Error: ' + error.message;
+    }
+    res.status(400).send(errorMessage);
+  }
 });
 
 export default router;

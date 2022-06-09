@@ -2,7 +2,10 @@
 
 //export type Visibility = 'great' | 'good' | 'ok' | 'poor';
 
-
+export enum Gender {
+  Female = 'female',
+  Male = 'male',
+}
 
 
 export interface DiagnoseEntry {
@@ -20,4 +23,14 @@ export interface Patient {
   occupation: string;
 }
 
-export type PatientRedu = Omit<Patient, "ssn" | "entries">;
+export type Fields = {
+  name: unknown,
+  dateOfBirth: unknown,
+  ssn: unknown,
+  gender: unknown,
+  occupation: unknown,
+};
+
+export type newPatient = Omit<Patient, 'id'>;
+
+export type PatientRedu = Omit<Patient, 'ssn' | 'entries'>;
