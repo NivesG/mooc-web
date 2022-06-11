@@ -10,6 +10,7 @@ const id: string = uuid();
 
 
 const patients: Array<PatientRedu> = patientsData as Array<PatientRedu>;
+const patients2: Array<Patient> = patientsData as Array<Patient>;
 
 const getEntries = (): Array<PatientRedu> => {
   return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
@@ -21,7 +22,18 @@ const getEntries = (): Array<PatientRedu> => {
   }));
 };
 
-const addPatient = ( entry: newPatient): Patient => {
+const getOneEntry = (id: string): Patient | undefined => {
+  let patient = patients2.find((pat) => pat.id === id);
+  if (patient && !patient?.entries) {
+    patient = {
+      ...patient,
+      entries: [],
+    };
+  }
+  return patient;
+};
+
+const addPatient = (entry: newPatient): Patient => {
   const newPatient = {
     id,
     ...entry
@@ -32,5 +44,6 @@ const addPatient = ( entry: newPatient): Patient => {
 
 export default {
   getEntries,
-  addPatient
+  addPatient,
+  getOneEntry
 };

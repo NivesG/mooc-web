@@ -15,13 +15,22 @@ router.get('/', (_req, res) => {
   res.send(patientsService.getEntries());
 });
 
+router.get('/:id', (_req, res) => {
+  const patient = patientsService.getOneEntry(_req.params.id);
+  if (patient) {
+    res.send(patient);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
 router.post('/', (_req, res) => {
-  try{
+  try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const newPatient = toNewPatientEntry(_req.body);
     const addedEntry = patientsService.addPatient(newPatient);
     res.json(addedEntry);
-  }catch (error: unknown) {
+  } catch (error: unknown) {
     let errorMessage = 'Something went wrong.';
     if (error instanceof Error) {
       errorMessage += ' Error: ' + error.message;

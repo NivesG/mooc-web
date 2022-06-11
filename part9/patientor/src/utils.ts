@@ -24,17 +24,18 @@ const isGender = (param: any): param is Gender => {
 
 const parseDate = (dateOfBirth: unknown): string => {
   if (!dateOfBirth || !isString(dateOfBirth) || !isDate(dateOfBirth)) {
-      throw new Error('Incorrect or missing date: ' + dateOfBirth);
+    throw new Error('Incorrect or missing date: ' + dateOfBirth);
   }
   return dateOfBirth;
 };
 
 const parseGender = (gender: unknown): Gender => {
   if (!gender || !isGender(gender)) {
-      throw new Error('Incorrect or missing gender: ' + gender);
+    throw new Error('Incorrect or missing gender: ' + gender);
   }
   return gender;
 };
+
 
 /*
 const toNewPatientEntry = (object: unknown): newPatient=> {
@@ -52,13 +53,14 @@ const toNewPatientEntry = (object: unknown): newPatient=> {
 
 */
 
-const toNewPatientEntry = ({name, dateOfBirth, ssn, gender, occupation}: Fields): newPatient=> {
+const toNewPatientEntry = ({ name, dateOfBirth, ssn, gender, occupation }: Fields): newPatient => {
   const newEntry: newPatient = {
     name: parseName(name),
     dateOfBirth: parseDate(dateOfBirth),
     ssn: parseName(ssn),
     gender: parseGender(gender),
     occupation: parseName(occupation),
+    entries: [],
   };
 
   return newEntry;
