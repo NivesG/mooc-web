@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import patientsData from '../data/patients.json';
+import patientsData from '../data/patients';
 import { PatientRedu, Patient, newPatient } from '../types';
 
 
@@ -10,7 +10,7 @@ const id: string = uuid();
 
 
 const patients: Array<PatientRedu> = patientsData as Array<PatientRedu>;
-const patients2: Array<Patient> = patientsData as Array<Patient>;
+const patients2: Array<Patient> = patientsData;
 
 const getEntries = (): Array<PatientRedu> => {
   return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
